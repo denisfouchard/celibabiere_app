@@ -1,4 +1,5 @@
 import heart from "../assets/icons/heart.png";
+import logo from "../assets/icons/babar.png";
 import menu from "../assets/icons/menu.png";
 import search from "../assets/icons/search.png";
 import filter from "../assets/icons/filter.png";
@@ -8,6 +9,7 @@ import share from "../assets/icons/share.png";
 import location from "../assets/icons/location.png";
 import chevronLeft from '../assets/icons/chevron-left.png'
 import chevronRight from '../assets/icons/chevron-right.png'
+import profile from '../assets/icons/profile.png'
 
 export default {
   heart,
@@ -19,5 +21,7 @@ export default {
   share,
   location,
   chevronLeft,
-  chevronRight
+  chevronRight,
+  profile,
+  logo
 };

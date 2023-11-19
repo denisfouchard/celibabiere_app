@@ -1,34 +1,81 @@
-import { useState } from "react";
-import { View, ScrollView, Text, Button, SafeAreaView } from "react-native";
-import { Stack, useRouter } from "expo-router";
+import React, { createContext } from "react";
 
-import { COLORS, icons, images } from "../constants";
-import { Nearbyjobs, Popularjobs, ScreenHeaderBtn, Welcome } from "../components";
+import { useState, useEffect } from "react";
+import { View, ScrollView, Text, Button, ButtonProps, SafeAreaView, Image } from "react-native";
+import { Stack, useRouter } from "expo-router";
+import { User } from "../api/types";
+import { Api } from "../api/Api";
+
+import { COLORS, images, icons } from "../constants";
+import ProfileButton from "../components/ProfileButton";
+import ProfileContext from "./ProfileContext";
+import WelcomPage from "./WelcomePage";
+
 
 const Home = () => {
     const router = useRouter();
+    const [myProfile, setMyProfile] = useState<User>(null);
+    const [refreshKey, setRefreshKey] = useState<number>(0);
+    useEffect(() => {
+
+        // l'id donné est bidon, jusqu'a modif des types...
+        Api.fetchMe().then((me) => setMyProfile(me));
+    }, [refreshKey]);
+
+    const handleCreateProfile = () => {
+        // Handle create profile logic here
+    };
 
     return (
+        <ProfileContext.Provider value={myProfile}>
         <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightWhite}}>
             <Stack.Screen
                 options={{
                     headerStyle : {
-                        backgroundColor: COLORS.lightWhite,
+                        backgroundColor: COLORS.headerPink,
                     },
-                    headerShadowVisible: false,
-                    headerTitle: "",
+                    headerTitle: () => (
+                        
+                            <View style={{ alignItems:'center', alignContent:'center'}}>
+                                
+                                <Text style={{fontSize: 20, 
+                                            fontWeight: 'bold', 
+                                            fontStyle:'italic', 
+                                            color: COLORS.white,
+                                            alignSelf:'center',
+                                            textShadowColor: COLORS.gray,
+                                            textShadowRadius: 3,
+                                            textShadowOffset: {width: 1, height: 1,}
+                                            }}>
+                                                Bonjour {myProfile?.pseudo} !
+                                </Text>
+                                
+                                
+                            </View>
+                            
+                        
+                        
+                    ),
                     headerLeft: () => (
-                        <ScreenHeaderBtn/>
+                        <Image
+                            source={icons.logo}
+                            resizeMode="cover"
+                            style={{
+                                width: 50,
+                                height: 50,
+                            }}/>
                     ),
+
                     headerRight: () => (
-                        <ScreenHeaderBtn/>
+                        <ProfileButton onPress={ () =>router.push("/profile") }/>
                     ),
+                    
                    
                 }}
             />
-            <ScrollView contentContainerStyle={{paddingBottom: 150,}}>
-            </ScrollView>
+        <WelcomPage/>
         </SafeAreaView>
+        </ProfileContext.Provider>
     );
 };
 

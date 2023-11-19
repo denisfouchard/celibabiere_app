@@ -8,6 +8,10 @@
       "expo-router"
     ],
     "name": "celibabiere_app",
-    "slug": "celibabiere_app"
+    "slug": "celibabiere_app",
+    "ios": {
+        "simulator": true,
+        "bundleIdentifier": "com.df.celibabiere_app"
+      }
   }
 }
